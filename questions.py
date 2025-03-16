@@ -29,8 +29,9 @@ correct_answers_index = [1, 2, 0, 3, 1]
 # Selecciona 3 preguntas aleatorias
 #zip crea tuplas que agrupan las preguntas con sus respuestas y el índice correcto.
 #list(zip()) convierte el conjunto de tuplas en una lista.
-#random.choices(k=3) selecciona 3 preguntas aleatorias de esa lista.
-questions_to_ask = random.choices(list(zip(questions, answers, correct_answers_index)), k=3)
+#random.sample(k=3) selecciona 3 preguntas aleatorias de esa lista sin repetición.
+#con random.sample cada pregunta aparece sólo una vez.
+questions_to_ask = random.sample(list(zip(questions, answers, correct_answers_index)), k=3)
 
 # Inicializo contador de puntaje
 score = 0
