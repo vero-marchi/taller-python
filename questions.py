@@ -71,5 +71,9 @@ for question, answer_options, correct_index in questions_to_ask:
     # Se imprime un blanco al final de la pregunta
     print()
 
+#Para que score no tome valores negativos
+score = max(0, score)
+#devuelve el numero más grande entre 0 y score (max(a,b))
+
 # Mostrar puntaje final
 print(f"Tu puntaje final es: {score:.1f} puntos")
