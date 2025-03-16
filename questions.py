@@ -26,50 +26,49 @@ answers = [
 # Índice de la respuesta correcta para cada pregunta, el mismo orden que las preguntas
 correct_answers_index = [1, 2, 0, 3, 1]
 
+# Selecciona 3 preguntas aleatorias
+#zip crea tuplas que agrupan las preguntas con sus respuestas y el índice correcto.
+#list(zip()) convierte el conjunto de tuplas en una lista.
+#random.choices(k=3) selecciona 3 preguntas aleatorias de esa lista.
+questions_to_ask = random.choices(list(zip(questions, answers, correct_answers_index)), k=3)
+
 # Inicializo contador de puntaje
 score = 0
 
-# El usuario deberá contestar 3 preguntas
-for _ in range(3):
-    # Se selecciona una pregunta aleatoria
-    question_index = random.randint(0, len(questions) - 1)
-    # Se muestra la pregunta y las respuestas posibles
-    print(questions[question_index])
-    for i, answer in enumerate(answers[question_index]):
-        print(f"{i + 1}. {answer}")
+# Itero sobre las preguntas seleccionadas
+for question, answer_options, correct_index in questions_to_ask:
+    print(question)
+
+    # Muestro las opciones de respuesta
+    for i, option in enumerate(answer_options):
+        print(f"{i + 1}. {option}")
+
     # El usuario tiene 2 intentos para responder correctamente
-    for intento in range(2):
+    for attempt in range(2):
         user_input = input("Respuesta: ")
 
-        # Validar si la entrada es un número
-        if not user_input.isdigit():
+        # Validar que sea un número dentro del rango válido
+        if not user_input.isdigit() or not (1 <= int(user_input) <= len(answer_options)):
             print("Respuesta no válida")
             sys.exit(1)
 
-        user_answer = int(user_input) - 1  # Convertir a entero y ajustar índice
+        user_answer = int(user_input) - 1 # Convertir a entero y ajustar índice
 
-        # Validar si el número está en el rango correcto
-        if user_answer < 0 or user_answer >= len(answers[question_index]):
-            print("Respuesta no válida")
-            sys.exit(1)
-        
-        
         # Se verifica si la respuesta es correcta
-        if user_answer ==correct_answers_index[question_index]:
+        if user_answer == correct_index:
             print("¡Correcto!")
-            score+=1 #suma 1 punto si la respuesta es correcta
+            score += 1  # Suma 1 punto por respuesta correcta
             break
         else:
-            score -=0.5 #Resta 0.5 puntos si la respuesta es incorrecta
+            score -= 0.5  # Resta 0.5 por intento fallido
+
     else:
-    # Si el usuario no responde correctamente después de 2 intentos,
-    # se muestra la respuesta correcta
-        print("Incorrecto. La respuesta correcta es:")
-        print(answers[question_index]
-        [correct_answers_index[question_index]])
-    
+        # Si el usuario no responde correctamente después de 2 intentos,
+        # se muestra la respuesta correcta
+        print("Incorrecto. La respuesta correcta es:", answer_options[correct_index])
+
     # Se imprime un blanco al final de la pregunta
     print()
-    
-# Muestra puntaje final
+
+# Mostrar puntaje final
 print(f"Tu puntaje final es: {score:.1f} puntos")
